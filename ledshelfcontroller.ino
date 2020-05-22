@@ -49,6 +49,16 @@ ISR(TIMER2_COMPA_vect){
    }
 }
 
+int hexToInt(char hexChar) {
+  if (hexChar < 'A') {           
+    return hexChar - '0';         // is digit
+  } else if (hexChar < 'a') {   
+    return (hexChar - 'A') + 10;  // is upper case
+  } else {                      
+    return (hexChar - 'a') + 10;  // is lower case
+  }
+}
+
 void setup() {
   // put your setup code here, to run once:
   
@@ -81,9 +91,8 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-  if (espSerial.available())
-  {
-    espSerial.read();
+  if (espSerial.available()) {
+    char c = espSerial.read();
   }
 
 }
