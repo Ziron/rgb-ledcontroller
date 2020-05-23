@@ -181,7 +181,10 @@ void loop() {
   {
     char c = espSerial.read();
 
-    if (c == ';') {
+    if (c == '\n' || c == '\r') {
+      // Ignore newline chars
+    }
+    else if (c == ';') {
       cur_val = 0;
       val_count = 0;
       char_count = 0;
