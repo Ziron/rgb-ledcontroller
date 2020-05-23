@@ -1,5 +1,3 @@
-#include <SoftwareSerial.h>
-
 // ESP_TX - A0 - PC0
 // ESP_RX - A1 - PC1
 
@@ -70,7 +68,13 @@
 #define B5_BIT (1 << 2)
 //--------------------
 
-SoftwareSerial espSerial(A0, A1); // RX, TX
+//#define SERIAL_DEBUG
+#ifdef SERIAL_DEBUG
+  #define espSerial Serial
+#else
+  #include <SoftwareSerial.h>
+  SoftwareSerial espSerial(A0, A1); // RX, TX
+#endif
 
 const int PWM_CYCLE = 256;
 
