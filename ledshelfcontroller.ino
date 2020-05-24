@@ -125,6 +125,14 @@ ISR(TIMER2_COMPA_vect){
 }
 
 void setVal(volatile char *arr, char valBit, int &curVal, int newVal) {
+#ifdef SERIAL_DEBUG
+  espSerial.print("Change ");
+  espSerial.print(curVal);
+  espSerial.print(" to ");
+  espSerial.println(newVal);
+  
+#endif
+  
   if (newVal == curVal) {
     return;
   } else if (newVal < curVal) {
@@ -193,7 +201,7 @@ void loop() {
       val_count = 0;
       char_count = 0;
     } else {
-      cur_val = (cur_val << 8) |  hexToInt(c);
+      cur_val = (cur_val << 4) |  hexToInt(c);
 
       if (++char_count >= 2) {
 
@@ -269,6 +277,7 @@ void loop() {
         }
         
         cur_val = 0;
+        char_count = 0;
       }
     }
     
