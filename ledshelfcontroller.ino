@@ -124,7 +124,7 @@ ISR(TIMER2_COMPA_vect){
    }
 }
 
-void setVal(volatile char *arr, char valBit, int &curVal, int newVal) {
+void setVal(volatile char *arr, const char valBit, int &curVal, const int newVal) {
 #ifdef SERIAL_DEBUG
   Serial.print("Change ");
   Serial.print(curVal);
@@ -146,7 +146,7 @@ void setVal(volatile char *arr, char valBit, int &curVal, int newVal) {
   curVal = newVal;
 }
 
-int hexToInt(char hexChar) {
+int hexToInt(const char hexChar) {
   if (hexChar < 'A') {           
     return hexChar - '0';         // is digit
   } else if (hexChar < 'a') {   
