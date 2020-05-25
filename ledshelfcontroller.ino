@@ -68,7 +68,7 @@
 #define B5_BIT (1 << 2)
 //--------------------
 
-//#define SERIAL_DEBUG
+//;#define SERIAL_DEBUG
 #ifdef SERIAL_DEBUG
   #define espSerial Serial
 #else
@@ -126,11 +126,10 @@ ISR(TIMER2_COMPA_vect){
 
 void setVal(volatile char *arr, char valBit, int &curVal, int newVal) {
 #ifdef SERIAL_DEBUG
-  espSerial.print("Change ");
-  espSerial.print(curVal);
-  espSerial.print(" to ");
-  espSerial.println(newVal);
-  
+  Serial.print("Change ");
+  Serial.print(curVal);
+  Serial.print(" to ");
+  Serial.println(newVal);
 #endif
   
   if (newVal == curVal) {
@@ -193,14 +192,11 @@ void loop() {
   {
     char c = espSerial.read();
 
-    if (c == '\n' || c == '\r') {
-      // Ignore newline chars
-    }
-    else if (c == ';') {
+    if (c == ';') { // Use ';' for separating commands
       cur_val = 0;
       val_count = 0;
       char_count = 0;
-    } else {
+    } else if (('0' <= c && c <= '9') || ('A' <= c && c <= 'F') || ('a' <= c && c <= 'f')) { // Is hex digit
       cur_val = (cur_val << 4) |  hexToInt(c);
 
       if (++char_count >= 2) {
@@ -280,7 +276,5 @@ void loop() {
         char_count = 0;
       }
     }
-    
   }
-
 }
