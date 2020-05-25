@@ -68,7 +68,7 @@
 #define B5_BIT (1 << 2)
 //--------------------
 
-//;#define SERIAL_DEBUG
+//#define SERIAL_DEBUG
 #ifdef SERIAL_DEBUG
   #define espSerial Serial
 #else
@@ -268,6 +268,9 @@ void loop() {
           }
 
           default: {
+            #ifdef SERIAL_DEBUG
+            Serial.println("Got too many values!");
+            #endif
             break;
           }
         }
