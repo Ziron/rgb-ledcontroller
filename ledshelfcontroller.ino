@@ -182,7 +182,7 @@ void setup() {
   
   sei();//allow interrupts
   
-  espSerial.begin(9600);
+  espSerial.begin(19200);
 }
 
 void loop() {
