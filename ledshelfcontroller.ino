@@ -182,7 +182,7 @@ void setup() {
   
   sei();//allow interrupts
   
-  espSerial.begin(19200);
+  espSerial.begin(19200); // Each update requires (5*3*2+1) = 31 chars * 10 = 310 bits. 19200 baud should be enough for just under 62 fps (60 is goal)
 }
 
 void loop() {
