@@ -77,41 +77,41 @@
   //SoftwareSerial espSerial(A0, A1); // RX, TX
 #endif
 
-const int PWM_CYCLE = 256;
+const uint8_t PWM_CYCLE = 255;
 
-int pwm_i = 0;
+uint8_t pwm_i = 0;
 
-volatile char B_STATE[PWM_CYCLE];
-volatile char C_STATE[PWM_CYCLE];
-volatile char D_STATE[PWM_CYCLE];
+volatile uint8_t B_STATE[PWM_CYCLE];
+volatile uint8_t C_STATE[PWM_CYCLE];
+volatile uint8_t D_STATE[PWM_CYCLE];
 
-const char B_MASK = 0b00011111;
-const char C_MASK = 0b00111100;
-const char D_MASK = 0b11111100;
+const uint8_t B_MASK = 0b00011111;
+const uint8_t C_MASK = 0b00111100;
+const uint8_t D_MASK = 0b11111100;
 
-int R1_val = 0;
-int G1_val = 0;
-int B1_val = 0;
+uint8_t R1_val = 0;
+uint8_t G1_val = 0;
+uint8_t B1_val = 0;
 
-int R2_val = 0;
-int G2_val = 0;
-int B2_val = 0;
+uint8_t R2_val = 0;
+uint8_t G2_val = 0;
+uint8_t B2_val = 0;
 
-int R3_val = 0;
-int G3_val = 0;
-int B3_val = 0;
+uint8_t R3_val = 0;
+uint8_t G3_val = 0;
+uint8_t B3_val = 0;
 
-int R4_val = 0;
-int G4_val = 0;
-int B4_val = 0;
+uint8_t R4_val = 0;
+uint8_t G4_val = 0;
+uint8_t B4_val = 0;
 
-int R5_val = 0;
-int G5_val = 0;
-int B5_val = 0;
+uint8_t R5_val = 0;
+uint8_t G5_val = 0;
+uint8_t B5_val = 0;
 
-int cur_val = 0;
-int val_count = 0;
-int char_count = 0;
+uint8_t cur_val = 0;
+uint8_t val_count = 0;
+uint8_t char_count = 0;
 
 ISR(TIMER2_COMPA_vect){
    //interrupt commands here
@@ -125,7 +125,7 @@ ISR(TIMER2_COMPA_vect){
    }
 }
 
-void setVal(volatile char *arr, const char valBit, int &curVal, const int newVal) {
+void setVal(volatile uint8_t *arr, const uint8_t valBit, uint8_t &curVal, const uint8_t newVal) {
 #ifdef SERIAL_DEBUG
   Serial.print("Change ");
   Serial.print(curVal);
@@ -139,7 +139,7 @@ void setVal(volatile char *arr, const char valBit, int &curVal, const int newVal
     for (int i = curVal - 1; i >= newVal; i--) {
       arr[i] &= ~valBit;
     }
-  }else {
+  } else {
     for (int i = curVal; i < newVal; i++) {
       arr[i] |= valBit;
     }
@@ -147,7 +147,7 @@ void setVal(volatile char *arr, const char valBit, int &curVal, const int newVal
   curVal = newVal;
 }
 
-int hexToInt(const char hexChar) {
+uint8_t hexToInt(const char hexChar) {
   if (hexChar < 'A') {           
     return hexChar - '0';         // is digit
   } else if (hexChar < 'a') {   
@@ -168,12 +168,12 @@ void setup() {
   DDRD = D_MASK;
 
 
-  //set timer2 interrupt at (115*256)Hz
+  //set timer2 interrupt at (120*255)Hz
   TCCR2A = 0;// set entire TCCR2A register to 0
   TCCR2B = 0;// same for TCCR2B
   TCNT2  = 0;//initialize counter value to 0
-  // set compare match register for (115*256)Hz increments
-  OCR2A = 67;// = (16*10^6) / ((115*256)*8) - 1 (must be <256)
+  // set compare match register for (120*255)Hz increments
+  OCR2A = 64;// = (16*10^6) / ((120*255)*8) - 1 (must be <256)
   // turn on CTC mode
   TCCR2A |= (1 << WGM21);
   // Set CS21 bit for 8 prescaler
